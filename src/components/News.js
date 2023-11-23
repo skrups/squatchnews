@@ -1,48 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const News = () => {
-  const [newsArticles, setNewsArticles] = useState([]);
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
+    // Fetch latest Sasquatch news from Google News API
     const fetchNews = async () => {
-      try {
-        const response = await axios.get(
-          `https://news.google.com/search?q=(Sasquatch OR Bigfoot)&hl=en-US&gl=US&ceid=US&oe=UTF-8&sort=date`
-        );
+      const response = await axios.get(
+        'https://cors-anywhere.herokuapp.com/https://news.google.com/rss/search?q=sasquatch',
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*', // Allow CORS for development
+          },
+        }
+      );
 
-        const newsData = response.data.feed.entry;
-        console.log('newsData', newsData);
-        const filteredNews = newsData.filter((article) => {
-          return article.title.toLowerCase().includes('sasquatch') || article.title.toLowerCase().includes('bigfoot');
+      const xml = await response.text;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'text/xml');
+
+      const newsItems = doc.querySelectorAll('channel > item');
+      const newsData = [];
+
+      for (const item of newsItems) {
+        const title = item.querySelector('title').textContent;
+        const description = item.querySelector('description').textContent;
+        const link = item.querySelector('link').textContent;
+
+        newsData.push({
+          title,
+          description,
+          link,
         });
-
-        setNewsArticles(filteredNews);
-      } catch (error) {
-        console.error(error);
       }
+
+      setNews(newsData);
     };
 
     fetchNews();
   }, []);
 
   return (
-    <div className="sasquatch-news">
-      <h1>Sasquatch and Bigfoot News Reports</h1>
-      {newsArticles.length > 0 ? (
-        <ul>
-          {newsArticles.map((article) => (
-            <li key={article.id}>
-              <a href={article.link} target="_blank" rel="noreferrer">
+    <div>
+      <h2>Sasquatch News</h2>
+      <ul>
+        {news.map((article) => (
+          <li key={article.title}>
+            <h3>
+              <a href={article.link} target="_blank" rel="noreferrer noopener">
                 {article.title}
               </a>
-              <p>{article.summary}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No Sasquatch or Bigfoot news reports found.</p>
-      )}
+            </h3>
+            <p>{article.description}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
