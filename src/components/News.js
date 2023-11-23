@@ -12,6 +12,7 @@ const News = () => {
         );
 
         const newsData = response.data.feed.entry;
+        console.log('newsData', newsData);
         const filteredNews = newsData.filter((article) => {
           return article.title.toLowerCase().includes('sasquatch') || article.title.toLowerCase().includes('bigfoot');
         });
