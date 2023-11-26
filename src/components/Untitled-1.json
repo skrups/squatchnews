@@ -1,0 +1,15 @@
+// [
+//   {
+//     "id": 1,
+//     "location": [40.7128, -74.0060], // Latitude and longitude coordinates
+//     "date": "2023-11-22",
+//     "description": "I saw a large, hairy creature walking through the woods."
+//   },
+//   {
+//     "id": 2,
+//     "location": [37.7833, -122.4167],
+//     "date": "2023-10-04",
+//     "description": "I heard strange noises coming from the forest near my house."
+//   },
+//   // More sighting data...
+// ]

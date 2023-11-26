@@ -1,51 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import React, { useState, useEffect } from 'react';
+import React from 'react';
+// import axios from 'axios';
 
 const News = () => {
-  const [news, setNews] = useState([]);
+  // const [news, setNews] = useState([]);
 
-  useEffect(() => {
-    // Fetch latest Sasquatch news from Google News API
-    const fetchNews = async () => {
-      const response = await axios.get(
-        'https://cors-anywhere.herokuapp.com/https://news.google.com/rss/search?q=sasquatch',
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*', // Allow CORS for development
-          },
-        }
-      );
+  // useEffect(() => {
+  //   // Fetch latest Sasquatch news from Google News API
+  //   const fetchNews = async () => {
+  //     const response = await axios.get(
+  //       'https://cors-anywhere.herokuapp.com/https://news.google.com/rss/search?q=sasquatch',
+  //       {
+  //         headers: {
+  //           'Access-Control-Allow-Origin': '*', // Allow CORS for development
+  //         },
+  //       }
+  //     );
 
-      const xml = await response.text;
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(xml, 'text/xml');
+  //     const xml = await response.text;
+  //     const parser = new DOMParser();
+  //     const doc = parser.parseFromString(xml, 'text/xml');
 
-      const newsItems = doc.querySelectorAll('channel > item');
-      const newsData = [];
+  //     const newsItems = doc.querySelectorAll('channel > item');
+  //     const newsData = [];
 
-      for (const item of newsItems) {
-        const title = item.querySelector('title').textContent;
-        const description = item.querySelector('description').textContent;
-        const link = item.querySelector('link').textContent;
+  //     for (const item of newsItems) {
+  //       const title = item.querySelector('title').textContent;
+  //       const description = item.querySelector('description').textContent;
+  //       const link = item.querySelector('link').textContent;
 
-        newsData.push({
-          title,
-          description,
-          link,
-        });
-      }
+  //       newsData.push({
+  //         title,
+  //         description,
+  //         link,
+  //       });
+  //     }
 
-      setNews(newsData);
-    };
+  //     setNews(newsData);
+  //   };
 
-    fetchNews();
-  }, []);
+  //   fetchNews();
+  // }, []);
 
   return (
     <div>
       <h2>Sasquatch News</h2>
       <ul>
-        {news.map((article) => (
+        {/* {news.map((article) => (
           <li key={article.title}>
             <h3>
               <a href={article.link} target="_blank" rel="noreferrer noopener">
@@ -54,7 +55,7 @@ const News = () => {
             </h3>
             <p>{article.description}</p>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
